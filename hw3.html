@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>과제 3</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+</head>
+<body>
+<script>
+let personalColors = ['#FFDAB9','#ADD8E6','#D2B48C','#E6E6FA'];
+let colorIndex = 0;
+let lastChangeTime = 0;
+
+function setup() {
+  createCanvas(600, 400);
+  rectMode(CENTER);
+}
+
+function draw() {
+  if (millis() - lastChangeTime > 2000) {
+    colorIndex = (colorIndex + 1) % personalColors.length;
+    lastChangeTime = millis();
+  }
+
+  let currentBgColor = personalColors[colorIndex];
+  background(currentBgColor);
+
+  drawShirt(currentBgColor);
+  drawFace();
+  drawHair();
+  drawFacialFeatures();
+}
+
+function drawShirt(bgColor) {
+  push();
+  translate(width / 2, height + 20);
+  fill(keyIsPressed ? '#e63946' : '#4a4a4a');
+  noStroke();
+  rect(0, 0, 300, 300, 20);
+
+  fill(bgColor);
+  ellipse(0, -140, 100, 80);
+  pop();
+}
+
+function drawFace() {
+  push();
+  translate(width / 2, height / 2 + 20);
+  fill('#f3d3b9');
+  stroke(0);
+  strokeWeight(2);
+  ellipse(0, 0, 180, 220);
+  ellipse(-90, 20, 30, 50);
+  ellipse(90, 20, 30, 50);
+  pop();
+}
+
+function drawHair() {
+  push();
+  translate(width / 2, height / 2 + 20);
+  fill(10, 10, 10);
+  noStroke();
+  arc(0, -35, 190, 170, PI, TWO_PI, CHORD);
+  pop();
+}
+
+function drawFacialFeatures() {
+  push();
+  translate(width / 2, height / 2 + 20);
+
+  fill(255);
+  stroke(0);
+  strokeWeight(2);
+  ellipse(-40, 0, 35, 25);
+  ellipse(40, 0, 35, 25);
+
+  let pupilOffset = map(mouseX, 0, width, -8, 8);
+  fill(0);
+  noStroke();
+  ellipse(-40 + pupilOffset, 0, 15, 15);
+  ellipse(40 + pupilOffset, 0, 15, 15);
+
+  stroke(0);
+  strokeWeight(2);
+  noFill();
+  arc(0, 35, 20, 20, HALF_PI - 0.5, HALF_PI + 0.5);
+
+  let smileHeight = map(mouseY, 0, height, 5, 35);
+  strokeWeight(2.5);
+  arc(0, 65, 40, smileHeight, 0, PI);
+  pop();
+}
+</script>
+</body>
+</html>
